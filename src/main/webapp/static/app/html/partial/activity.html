@@ -1,0 +1,35 @@
+<div ng-init="init()">
+	<div class="col-md-10 text-center col-md-offset-1">
+		<div class="text-left">
+			<form ng-submit="getAll()">
+			Search <input type="text" ng-model="search"/>
+			<button ng-click="page=0;getAll()" class="btn btn-info btn-sm">Enter</button>
+			<button ng-click="search=null; page=0 ;getAll()"  class="btn btn-primary btn-sm">Reset</button>
+		</form>
+		</div>
+		<table class="table table-striped table-hover table-bordered " ng-init="page = 0; getAll()">
+			<tr>
+				<th class="col-md-1 text-center">Id</th>
+				<th class="col-md-4 text-center">Name</th>
+				<th class="col-md-5 text-center">Actions</th>
+			</tr>
+			<tr ng-repeat="activity in activities">
+				<td class="col-md-1">{{activity.id}}</td>
+				<td class="col-md-4">{{activity.name}}</td>
+				<td class="col-md-5"><span ng-show="deletebt">
+					<button class="btn btn-danger btn-xs" ng-click="deletebt=false">
+						Delete
+					</button> </span>
+					<span ng-hide="deletebt">
+						Are you sure?<button class="button btn-danger btn-xs" ng-click="remove(activity.id)">Yes </button> <button class="button btn-info btn-xs" ng-click="deletebt=true"> No</button>
+					 </span>
+					<a href="/#/activities/edit/{{activity.id}}" class="btn btn-info btn-xs">Edit</a>
+			</tr>
+		</table>
+		<div class="text-right">
+			<button class="btn btn-info btn-sm" ng-click="page = page-1; getAll()" ng-disabled="page==0">Previus</button>{{page+1}}-{{totalPages}}
+			<button class="btn btn-info btn-sm" ng-disabled="page+1==totalPages" ng-click="page = page+1; getAll()">Next</button>
+		</div>
+		<a href="/#/activities/add" class="btn btn-success btn-lg">Add Activity</a>
+	</div>
+</div>
