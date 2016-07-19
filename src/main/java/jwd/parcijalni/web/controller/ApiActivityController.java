@@ -37,18 +37,22 @@ public class ApiActivityController {
 			@RequestParam(required = true, value = "page") int page) {
 
 		int totalPages = 0;
+		Long totalElements = 0l;
 		List ret = null;
 		if (name != null) {
 			Page<Activity> all = activityService.findByName(page, name);
 			ret = all.getContent();
 			totalPages = all.getTotalPages();
+			totalElements = all.getTotalElements();
 		} else {
 			Page<Activity> all = activityService.findAll(page);
 			ret = all.getContent();
 			totalPages = all.getTotalPages();
+			totalElements = all.getTotalElements();
 		}
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.add("total-pages", ""+totalPages);
+		httpHeaders.add("total-elements", ""+totalElements);
 		return new ResponseEntity<>(toDTO.convert(ret),httpHeaders, HttpStatus.OK);
 	}
 

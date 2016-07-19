@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import jwd.parcijalni.model.User;
@@ -17,9 +19,9 @@ public class JpaUserService implements UserService{
 	private UserRepository userRepository;
 
 	@Override
-	public List<User> findAll() {
+	public Page<User> findAll(int page) {
 		// TODO Auto-generated method stub
-		return userRepository.findAll();
+		return userRepository.findAll(new PageRequest(page, 3));
 	}
 
 	@Override
@@ -60,6 +62,12 @@ public class JpaUserService implements UserService{
 			ret.add(delete(user));
 		}
 		return ret;
+	}
+
+	@Override
+	public Page<User> findByName(int page, String name) {
+		
+		return userRepository.findByFirstnameLikeOrLastnameLike(new PageRequest(page, 3), "%"+name+"%", "%"+name+"%");
 	}
 
 }

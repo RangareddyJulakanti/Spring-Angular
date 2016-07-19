@@ -3,12 +3,15 @@ package jwd.parcijalni.web.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jwd.parcijalni.model.User;
@@ -34,10 +37,28 @@ public class ApiUserController {
 	
 	
 	@RequestMapping(method=RequestMethod.GET)
-	public ResponseEntity<List<UserDTO>> findAll(){
-		List<User> user = service.findAll();
-		
-		return new ResponseEntity<>(toDTO.convert(user), HttpStatus.OK);
+	public ResponseEntity<List<UserDTO>> findAll(@RequestParam(required=false, value="name") String name,
+												 @RequestParam(required=true, value="page") int page){
+		List<User> ret = null;
+		int totalPages = 0;
+		Long totalElements = 0l;
+		HttpHeaders httpHeaders = new HttpHeaders();
+		if(name!=null){
+			Page<User> all = service.findByName(page, name);
+			totalPages = all.getTotalPages();
+			totalElements = all.getTotalElements();
+			ret = all.getContent();
+		}
+		else{
+			Page<User> all = service.findAll(page);
+			totalPages = all.getTotalPages();
+			totalElements = all.getTotalElements();
+			ret = all.getContent();
+		}
+
+		httpHeaders.add("total-pages", "" + totalPages);
+		httpHeaders.add("total-elements", "" + totalElements);
+		return new ResponseEntity<>(toDTO.convert(ret), httpHeaders, HttpStatus.OK);
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, value="/{id}")
