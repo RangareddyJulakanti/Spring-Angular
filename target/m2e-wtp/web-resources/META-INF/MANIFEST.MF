@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: ZadatakPrvi
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: Rade
+Built-By: r.spasojevic
 Implementation-Vendor-Id: com.glavni
-Build-Jdk: 1.8.0_77
+Build-Jdk: 1.8.0_111
 Created-By: Maven Integration for Eclipse
 Implementation-Vendor: Pivotal Software, Inc.
 
