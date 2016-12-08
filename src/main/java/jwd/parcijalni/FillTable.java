@@ -32,6 +32,7 @@ public class FillTable {
 		userService.save(new User("Cain", "Velasquez","fighter","hello@gmail.com"));
 		userService.save(new User("Davide", "Beckam","football","hello2@gmail.com"));
 		userService.save(new User("Franchesco", "Totti","acroma","roma@gmail.com"));
+		userService.save(new User("Batman", "Bruce","batcave","batman@gmail.com"));
 	}
 
 }
